@@ -9,8 +9,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-hedvig-letters-sans)', 'sans-serif'],
-        serif: ['var(--font-hedvig-letters-sans)', 'serif'],
+        sans: ['var(--font-hedvig-letters-serif)', 'sans-serif'],
+        serif: ['var(--font-hedvig-letters-serif)', 'serif'],
+        'hedvig-sans': ['var(--font-hedvig-letters-sans)', 'sans-serif'],
       },
     },
   },
