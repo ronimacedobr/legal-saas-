@@ -183,11 +183,15 @@ export default function Dashboard() {
       <div className="bg-white flex flex-col h-screen w-[60px] shrink-0 sticky top-0 z-[100] relative border-r border-[#dbdad7]">
         {/* Logo Area */}
         <div className="border-b border-[#dbdad7] h-[70px] flex items-center justify-center shrink-0 relative z-10">
-          <div className="relative size-[28px]">
+          <button 
+            onClick={() => setActivePage('Dashboard')}
+            className="relative size-[28px] flex items-center justify-center hover:opacity-80 transition-opacity cursor-pointer"
+            aria-label="Go to Dashboard"
+          >
             <div className="absolute h-[26px] left-[2px] top-px w-[22px]">
               <img alt="Logo" className="w-full h-full object-contain" src={imgLogo} />
             </div>
-          </div>
+          </button>
         </div>
 
         {/* Navigation Menu */}
@@ -195,9 +199,9 @@ export default function Dashboard() {
           <div className="flex flex-col gap-2">
             {[
               { icon: imgSvgDashboard, name: 'Dashboard' },
+              { icon: imgSvgProcessos, name: 'Processos' },
               { icon: imgSvgClientes, name: 'Clientes' },
               { icon: imgSvgFinanceiro, name: 'Financeiro' },
-              { icon: imgSvgProcessos, name: 'Processos' },
               { icon: imgSvgAI, name: 'AI Assistente' },
             ].map((item) => {
               const isAI = item.name === 'AI Assistente';
