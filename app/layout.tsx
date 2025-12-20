@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Hedvig_Letters_Serif, Hedvig_Letters_Sans } from 'next/font/google'
 import './globals.css'
+import PasswordProtection from './components/PasswordProtection'
 
 const hedvigSerif = Hedvig_Letters_Serif({ 
   subsets: ['latin'],
@@ -26,7 +27,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${hedvigSerif.variable} ${hedvigSans.variable} font-sans`}>{children}</body>
+      <body className={`${hedvigSerif.variable} ${hedvigSans.variable} font-sans`}>
+        <PasswordProtection>
+          {children}
+        </PasswordProtection>
+      </body>
     </html>
   )
 }
