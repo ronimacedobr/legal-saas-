@@ -95,10 +95,8 @@ export default function Dashboard() {
   const searchRef = useRef<HTMLDivElement>(null);
   
   // Dynamic greeting based on user's timezone
-  const [greeting, setGreeting] = useState('Good Morning');
+  const [greeting, setGreeting] = useState('Boa noite');
   const [userName, setUserName] = useState('Roni');
-  const [displayedText, setDisplayedText] = useState('');
-  const [isTyping, setIsTyping] = useState(true);
 
   // Function to get appropriate greeting based on time
   const getGreeting = () => {
@@ -117,31 +115,6 @@ export default function Dashboard() {
     const interval = setInterval(updateGreeting, 60000);
     return () => clearInterval(interval);
   }, []);
-
-  // Typing animation effect
-  useEffect(() => {
-    const fullText = `${greeting} ${userName},`;
-    let currentIndex = 0;
-    
-    const typingDuration = 1000; // 1 second
-    const charDelay = typingDuration / fullText.length;
-    
-    const typingInterval = setInterval(() => {
-      if (currentIndex <= fullText.length) {
-        setDisplayedText(fullText.slice(0, currentIndex));
-        currentIndex++;
-      } else {
-        setIsTyping(false);
-        clearInterval(typingInterval);
-      }
-    }, charDelay);
-    
-    return () => {
-      clearInterval(typingInterval);
-      setIsTyping(true);
-      setDisplayedText('');
-    };
-  }, [greeting, userName]);
 
   // Handle click outside to close search results
   useEffect(() => {
@@ -455,21 +428,8 @@ export default function Dashboard() {
             {/* Greeting Header */}
             <div className="flex flex-col gap-1 mb-8">
               <h1 className="text-[30px] leading-[45px] font-serif flex items-center">
-                {displayedText.includes(userName) ? (
-                  <>
-                    <span className="text-[#262626]">{displayedText.split(userName)[0]}</span>
-                    <span className="text-[#666666]">{userName}{displayedText.split(userName)[1]}</span>
-                  </>
-                ) : (
-                  <span className="text-[#262626]">{displayedText}</span>
-                )}
-                {isTyping && (
-                  <span className="typing-indicator">
-                    <span className="typing-dot"></span>
-                    <span className="typing-dot"></span>
-                    <span className="typing-dot"></span>
-                  </span>
-                )}
+                <span className="text-[#262626]">{greeting} </span>
+                <span className="text-[#666666]">{userName},</span>
               </h1>
               <p className="text-[14px] text-[#666] leading-[21px] font-hedvig-sans font-normal">Aqui está o que exige sua atenção hoje</p>
             </div>
