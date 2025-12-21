@@ -265,7 +265,7 @@ export default function Dashboard() {
                 <div key={item.name} className="group relative flex items-center justify-center w-full">
                   <motion.button 
                     onClick={() => setActivePage(item.name)}
-                    className={`h-[40px] w-full flex items-center justify-center ${
+                    className={`h-[40px] w-full flex items-center justify-center rounded-[6px] ${
                       isActive ? 'bg-[#f3f2f2]' : ''
                     }`}
                     initial={{ backgroundColor: 'rgba(255,255,255,0)' }}
@@ -292,7 +292,7 @@ export default function Dashboard() {
             <div className="group relative flex items-center justify-center w-full">
               <motion.button 
                 onClick={() => setActivePage('AI Assistente')}
-                className={`h-[40px] w-full flex items-center justify-center ${
+                className={`h-[40px] w-full flex items-center justify-center rounded-[6px] ${
                   activePage === 'AI Assistente' ? 'bg-[#f3f2f2]' : ''
                 }`}
                 initial={{ backgroundColor: 'rgba(255,255,255,0)' }}
@@ -338,7 +338,7 @@ export default function Dashboard() {
                 <div key={item.name} className="group relative flex items-center justify-center w-full">
                   <motion.button 
                     onClick={() => setActivePage(item.name)}
-                    className={`h-[40px] w-full flex items-center justify-center ${
+                    className={`h-[40px] w-full flex items-center justify-center rounded-[6px] ${
                       isItemActive ? 'bg-[#f3f2f2]' : ''
                     }`}
                     initial={{ backgroundColor: 'rgba(255,255,255,0)' }}
