@@ -426,7 +426,7 @@ export default function Dashboard() {
 
           {/* Header Right Side */}
           <div className="flex items-center gap-4">
-            <TrialButton className="border border-[#dbdad7] px-[13px] py-1 h-[32px] rounded-full flex items-center" />
+            <TrialButton className="border border-[#dbdad7] px-[13px] py-1 h-[32px] rounded-[6px] flex items-center" />
             
             <button className="border border-[#dbdad7] size-[32px] rounded-full flex items-center justify-center hover:bg-gray-50">
               <img alt="Notifications" className="size-[16px]" src={imgSvgNotifications} />
