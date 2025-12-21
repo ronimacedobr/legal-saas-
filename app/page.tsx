@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
 import { LayoutDashboard, Handshake, FileText, Wallet, Settings, LogOut, Sparkles } from 'lucide-react'
 import { Command } from 'cmdk'
+import { motion } from 'framer-motion'
 
 // Asset URLs from the latest Figma Design (47:4088)
 const imgLogo = "https://www.figma.com/api/mcp/asset/a32df1a4-14a5-41e2-a277-96f0831aa81f";
@@ -262,17 +263,24 @@ export default function Dashboard() {
               const IconComponent = item.icon;
               return (
                 <div key={item.name} className="group relative flex items-center justify-center w-full">
-                  <button 
+                  <motion.button 
                     onClick={() => setActivePage(item.name)}
-                    className={`h-[40px] w-full flex items-center justify-center transition-colors ${
-                      isActive ? 'bg-[#f3f2f2]' : 'hover:bg-[#f3f2f2]'
+                    className={`h-[40px] w-full flex items-center justify-center ${
+                      isActive ? 'bg-[#f3f2f2]' : ''
                     }`}
+                    initial={{ backgroundColor: 'rgba(255,255,255,0)' }}
+                    whileHover={{ 
+                      scale: 1.05,
+                      backgroundColor: 'rgba(243, 242, 242, 1)'
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
                   >
                     <IconComponent 
                       className="size-[20px] text-[#666666]"
                       strokeWidth={1.5}
                     />
-                  </button>
+                  </motion.button>
                   <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#262626] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-[110] font-hedvig-sans font-normal">
                     {item.name}
                   </span>
@@ -284,11 +292,18 @@ export default function Dashboard() {
           {/* Middle Group: AI Assistente - Orange icon with significant gap */}
           <div className="flex flex-col mt-16">
             <div className="group relative flex items-center justify-center w-full">
-              <button 
+              <motion.button 
                 onClick={() => setActivePage('AI Assistente')}
-                className={`h-[40px] w-full flex items-center justify-center transition-colors ${
-                  activePage === 'AI Assistente' ? 'bg-[#f3f2f2]' : 'hover:bg-[#f3f2f2]'
+                className={`h-[40px] w-full flex items-center justify-center ${
+                  activePage === 'AI Assistente' ? 'bg-[#f3f2f2]' : ''
                 }`}
+                initial={{ backgroundColor: 'rgba(255,255,255,0)' }}
+                whileHover={{ 
+                  scale: 1.05,
+                  backgroundColor: 'rgba(243, 242, 242, 1)'
+                }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
                 <svg 
                   className="size-[20px] group-hover:scale-110 group-hover:rotate-[360deg] transition-all duration-500 ease-out"
@@ -308,7 +323,7 @@ export default function Dashboard() {
                   <path d="M18.3333 3.33333H15" stroke="#C96800" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
                   <path d="M3.33333 18.3333C4.25381 18.3333 5 17.5871 5 16.6667C5 15.7462 4.25381 15 3.33333 15C2.41286 15 1.66667 15.7462 1.66667 16.6667C1.66667 17.5871 2.41286 18.3333 3.33333 18.3333Z" stroke="#C96800" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-              </button>
+              </motion.button>
               <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#C96800] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-[110] font-hedvig-sans font-normal">
                 AI Assistente
               </span>
@@ -325,17 +340,24 @@ export default function Dashboard() {
               const IconComponent = item.icon;
               return (
                 <div key={item.name} className="group relative flex items-center justify-center w-full">
-                  <button 
+                  <motion.button 
                     onClick={() => setActivePage(item.name)}
-                    className={`h-[40px] w-full flex items-center justify-center transition-colors ${
-                      isItemActive ? 'bg-[#f3f2f2]' : 'hover:bg-[#f3f2f2]'
+                    className={`h-[40px] w-full flex items-center justify-center ${
+                      isItemActive ? 'bg-[#f3f2f2]' : ''
                     }`}
+                    initial={{ backgroundColor: 'rgba(255,255,255,0)' }}
+                    whileHover={{ 
+                      scale: 1.05,
+                      backgroundColor: 'rgba(243, 242, 242, 1)'
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
                   >
                     <IconComponent 
-                      className="size-[18px] text-[#666666]"
+                      className="size-[20px] text-[#666666]"
                       strokeWidth={1.5}
                     />
-                  </button>
+                  </motion.button>
                   <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#262626] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-[110] font-hedvig-sans font-normal">
                     {item.name}
                   </span>
