@@ -270,18 +270,16 @@ export default function Dashboard() {
                     }`}
                     initial={{ backgroundColor: 'rgba(255,255,255,0)' }}
                     whileHover={{ 
-                      scale: 1.05,
                       backgroundColor: 'rgba(243, 242, 242, 1)'
                     }}
-                    whileTap={{ scale: 0.95 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   >
                     <IconComponent 
                       className="size-[20px] text-[#666666]"
                       strokeWidth={1.5}
                     />
                   </motion.button>
-                  <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#262626] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-[110] font-hedvig-sans font-normal">
+                  <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#262626] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out pointer-events-none z-[110] font-hedvig-sans font-normal">
                     {item.name}
                   </span>
                 </div>
@@ -299,11 +297,9 @@ export default function Dashboard() {
                 }`}
                 initial={{ backgroundColor: 'rgba(255,255,255,0)' }}
                 whileHover={{ 
-                  scale: 1.05,
                   backgroundColor: 'rgba(243, 242, 242, 1)'
                 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               >
                 <svg 
                   className="size-[20px] group-hover:scale-110 group-hover:rotate-[360deg] transition-all duration-500 ease-out"
@@ -324,7 +320,7 @@ export default function Dashboard() {
                   <path d="M3.33333 18.3333C4.25381 18.3333 5 17.5871 5 16.6667C5 15.7462 4.25381 15 3.33333 15C2.41286 15 1.66667 15.7462 1.66667 16.6667C1.66667 17.5871 2.41286 18.3333 3.33333 18.3333Z" stroke="#C96800" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </motion.button>
-              <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#C96800] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-[110] font-hedvig-sans font-normal">
+              <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#C96800] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out pointer-events-none z-[110] font-hedvig-sans font-normal">
                 AI Assistente
               </span>
             </div>
@@ -347,18 +343,16 @@ export default function Dashboard() {
                     }`}
                     initial={{ backgroundColor: 'rgba(255,255,255,0)' }}
                     whileHover={{ 
-                      scale: 1.05,
                       backgroundColor: 'rgba(243, 242, 242, 1)'
                     }}
-                    whileTap={{ scale: 0.95 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   >
                     <IconComponent 
                       className="size-[20px] text-[#666666]"
                       strokeWidth={1.5}
                     />
                   </motion.button>
-                  <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#262626] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-[110] font-hedvig-sans font-normal">
+                  <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#262626] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out pointer-events-none z-[110] font-hedvig-sans font-normal">
                     {item.name}
                   </span>
                 </div>
