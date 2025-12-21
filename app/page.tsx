@@ -427,7 +427,7 @@ export default function Dashboard() {
           <div className="max-w-[1200px] pl-[26px] pr-[24px] py-[24px]">
             {/* Greeting Header */}
             <div className="flex flex-col gap-1 mb-8">
-              <h1 className="text-[30px] leading-[45px] font-serif flex items-center">
+              <h1 className="text-[30px] leading-[45px] font-serif">
                 <span className="text-[#262626]">{greeting} </span>
                 <span className="text-[#666666]">{userName},</span>
               </h1>
