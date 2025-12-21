@@ -368,7 +368,7 @@ export default function Dashboard() {
         <header className="bg-white border-b border-[#dbdad7] h-[70px] flex items-center justify-between px-6 shrink-0 z-40">
           {/* Search Bar */}
           <div className="relative" ref={searchRef}>
-            <div className="flex items-center gap-2 min-w-[250px] h-[36px] px-3 border border-[#dbdad7] rounded-none focus-within:border-[#4A90E2] transition-all">
+            <div className="flex items-center gap-2 min-w-[250px] h-[36px] px-3 border border-[#dbdad7] rounded-[6px] focus-within:border-[#4A90E2] transition-all">
               <div className="relative size-[18px] flex items-center justify-center">
                 <img alt="" className="size-full" src={imgFrame} />
                 <img alt="" className="absolute inset-0 size-full p-[2px]" src={imgVector} />
