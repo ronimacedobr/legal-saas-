@@ -66,7 +66,7 @@ This is a Next.js 14 application built with TypeScript, React, and Tailwind CSS.
 
 ### Sidebar Navigation
 - Icons should use lucide-react components
-- Standard icon size: 20px for main nav, 18px for settings
+- Standard icon size: 20px for main nav, 20px for settings
 - Hover effects: background color change + tooltip with opacity transition
 - AI Assistente icon uses custom SVG with orange color (#C96800)
 - Group navigation items logically with spacing (mt-16 for significant gaps)
@@ -104,3 +104,4 @@ This is a Next.js 14 application built with TypeScript, React, and Tailwind CSS.
 - Color scheme is carefully defined and should be maintained
 - Sidebar has a fixed width of 60px
 - Header height is 70px
+

@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from 'react'
 import { LayoutDashboard, Handshake, FileText, Wallet, Settings, LogOut, Sparkles } from 'lucide-react'
 import { Command } from 'cmdk'
 import { motion } from 'framer-motion'
+import { PlaceholdersAndVanishInput } from './ui/placeholders-and-vanish-input'
 
 // Asset URLs from the latest Figma Design (47:4088)
 const imgLogo = "https://www.figma.com/api/mcp/asset/a32df1a4-14a5-41e2-a277-96f0831aa81f";
@@ -159,6 +160,23 @@ export default function Dashboard() {
     );
     setSearchResults(results);
     setShowResults(true);
+  };
+
+  // Handle search input change
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleSearch(e.target.value);
+  };
+
+  // Handle search form submit
+  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (searchQuery.trim() && searchResults.length > 0) {
+      handleResultClick(searchResults[0]);
+    } else if (searchQuery.trim()) {
+      // If no results but there's a query, just clear it
+      setSearchQuery('');
+      setShowResults(false);
+    }
   };
 
   const handleResultClick = (result: SearchResult) => {
@@ -368,23 +386,19 @@ export default function Dashboard() {
         <header className="bg-white border-b border-[#dbdad7] h-[70px] flex items-center justify-between px-6 shrink-0 z-40">
           {/* Search Bar */}
           <div className="relative" ref={searchRef}>
-            <div className="flex items-center gap-2 min-w-[250px] h-[36px] px-3 border border-[#dbdad7] rounded-[6px] focus-within:border-[#4A90E2] transition-all">
-              <div className="relative size-[18px] flex items-center justify-center">
-                <img alt="" className="size-full" src={imgFrame} />
-                <img alt="" className="absolute inset-0 size-full p-[2px]" src={imgVector} />
-              </div>
-              <input
-                type="text"
+            <div className="min-w-[250px]">
+              <PlaceholdersAndVanishInput
+                placeholders={[
+                  "Buscar processos...",
+                  "Encontrar clientes...",
+                  "Ver finanças...",
+                  "Procurar configurações...",
+                  "Find anything..."
+                ]}
                 value={searchQuery}
-                onChange={(e) => handleSearch(e.target.value)}
-                onFocus={() => searchQuery && setShowResults(true)}
-                placeholder="Find anything..."
-                className="flex-1 text-[14px] text-[#616161] bg-transparent outline-none placeholder:text-[#616161]"
+                onChange={handleSearchChange}
+                onSubmit={handleSearchSubmit}
               />
-              <div className="hidden sm:flex items-center gap-1 bg-[#f1f0ee] border border-[#dbdad7] px-1.5 py-0.5 rounded text-[10px] text-[#616161]">
-                <span>⌘</span>
-                <span>K</span>
-              </div>
             </div>
 
             {/* Search Results Dropdown */}

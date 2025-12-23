@@ -80,3 +80,4 @@ export default function PasswordProtection({ children }: { children: React.React
 
   return <>{children}</>
 }
+
