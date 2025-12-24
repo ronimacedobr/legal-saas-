@@ -290,14 +290,14 @@ export default function Dashboard() {
                     whileHover={{ 
                       backgroundColor: 'rgba(243, 242, 242, 1)'
                     }}
-                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 0.5, ease: [0.4, 0, 1, 1] }}
                   >
                     <IconComponent 
-                      className="size-[20px] text-[#666666]"
+                      className="size-[20px] text-[#666666] group-hover:text-[#262626] transition-colors duration-500 ease-in"
                       strokeWidth={1.5}
                     />
                   </motion.button>
-                  <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#262626] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out pointer-events-none z-[110] font-hedvig-sans font-normal">
+                  <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#262626] opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in pointer-events-none z-[110] font-hedvig-sans font-normal">
                     {item.name}
                   </span>
                 </div>
@@ -317,7 +317,7 @@ export default function Dashboard() {
                 whileHover={{ 
                   backgroundColor: 'rgba(243, 242, 242, 1)'
                 }}
-                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.5, ease: [0.4, 0, 1, 1] }}
               >
                 <svg 
                   className="size-[20px] group-hover:scale-110 group-hover:rotate-[360deg] transition-all duration-500 ease-out"
@@ -326,7 +326,7 @@ export default function Dashboard() {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path 
-                    className="group-hover:fill-[#C96800] transition-colors duration-300"
+                    className="group-hover:fill-[#C96800] transition-colors duration-500 ease-in"
                     d="M9.18083 2.345C9.21654 2.15384 9.31798 1.98118 9.46758 1.85693C9.61718 1.73268 9.80553 1.66467 10 1.66467C10.1945 1.66467 10.3828 1.73268 10.5324 1.85693C10.682 1.98118 10.7835 2.15384 10.8192 2.345L11.695 6.97667C11.7572 7.30596 11.9172 7.60885 12.1542 7.84581C12.3912 8.08277 12.694 8.2428 13.0233 8.305L17.655 9.18083C17.8462 9.21654 18.0188 9.31798 18.1431 9.46758C18.2673 9.61718 18.3353 9.80553 18.3353 10C18.3353 10.1945 18.2673 10.3828 18.1431 10.5324C18.0188 10.682 17.8462 10.7835 17.655 10.8192L13.0233 11.695C12.694 11.7572 12.3912 11.9172 12.1542 12.1542C11.9172 12.3912 11.7572 12.694 11.695 13.0233L10.8192 17.655C10.7835 17.8462 10.682 18.0188 10.5324 18.1431C10.3828 18.2673 10.1945 18.3353 10 18.3353C9.80553 18.3353 9.61718 18.2673 9.46758 18.1431C9.31798 18.0188 9.21654 17.8462 9.18083 17.655L8.305 13.0233C8.2428 12.694 8.08277 12.3912 7.84581 12.1542C7.60885 11.9172 7.30596 11.7572 6.97667 11.695L2.345 10.8192C2.15384 10.7835 1.98118 10.682 1.85693 10.5324C1.73268 10.3828 1.66467 10.1945 1.66467 10C1.66467 9.80553 1.73268 9.61718 1.85693 9.46758C1.98118 9.31798 2.15384 9.21654 2.345 9.18083L6.97667 8.305C7.30596 8.2428 7.60885 8.08277 7.84581 7.84581C8.08277 7.60885 8.2428 7.30596 8.305 6.97667L9.18083 2.345Z" 
                     stroke="#C96800" 
                     strokeWidth="1.67" 
@@ -338,7 +338,7 @@ export default function Dashboard() {
                   <path d="M3.33333 18.3333C4.25381 18.3333 5 17.5871 5 16.6667C5 15.7462 4.25381 15 3.33333 15C2.41286 15 1.66667 15.7462 1.66667 16.6667C1.66667 17.5871 2.41286 18.3333 3.33333 18.3333Z" stroke="#C96800" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </motion.button>
-              <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#C96800] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out pointer-events-none z-[110] font-hedvig-sans font-normal">
+              <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#262626] opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in pointer-events-none z-[110] font-hedvig-sans font-normal">
                 AI Assistente
               </span>
             </div>
@@ -363,14 +363,14 @@ export default function Dashboard() {
                     whileHover={{ 
                       backgroundColor: 'rgba(243, 242, 242, 1)'
                     }}
-                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 0.5, ease: [0.4, 0, 1, 1] }}
                   >
                     <IconComponent 
-                      className="size-[20px] text-[#666666]"
+                      className="size-[20px] text-[#666666] group-hover:text-[#262626] transition-colors duration-500 ease-in"
                       strokeWidth={1.5}
                     />
                   </motion.button>
-                  <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#262626] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out pointer-events-none z-[110] font-hedvig-sans font-normal">
+                  <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#262626] opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in pointer-events-none z-[110] font-hedvig-sans font-normal">
                     {item.name}
                   </span>
                 </div>

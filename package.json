@@ -9,18 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tabler/icons-react": "^3.36.0",
     "@tanstack/react-query": "^5.90.12",
     "@tremor/react": "^3.18.7",
+    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "framer-motion": "^12.23.26",
     "lucide-react": "^0.562.0",
+    "motion": "^12.23.26",
     "next": "14.0.4",
     "nuqs": "^2.8.5",
     "react": "^18",
     "react-dom": "^18",
     "sonner": "^2.0.7",
-    "tailwind-merge": "^3.4.0"
+    "tailwind-merge": "^3.4.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/node": "^20",
