@@ -8,6 +8,11 @@
   transition: stroke 0.3s cubic-bezier(0.4, 0, 1, 1);
 }
 
+/* Keep AI icon orange on hover */
+.flex-1.flex.flex-col.justify-between .group:hover svg.ai-icon path[stroke] {
+  stroke: #C96800 !important;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

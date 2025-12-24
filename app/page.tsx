@@ -283,7 +283,7 @@ export default function Dashboard() {
                 <div key={item.name} className="group relative flex items-center justify-center w-full">
                   <motion.button 
                     onClick={() => setActivePage(item.name)}
-                    className={`h-[40px] w-full flex items-center justify-center rounded-[6px] ${
+                    className={`h-[40px] w-full flex items-center justify-center rounded-[0px] ${
                       isActive ? 'bg-[#f3f2f2]' : ''
                     }`}
                     initial={{ backgroundColor: 'rgba(255,255,255,0)' }}
@@ -310,7 +310,7 @@ export default function Dashboard() {
             <div className="group relative flex items-center justify-center w-full">
               <motion.button 
                 onClick={() => setActivePage('AI Assistente')}
-                className={`h-[40px] w-full flex items-center justify-center rounded-[6px] ${
+                className={`h-[40px] w-full flex items-center justify-center rounded-[0px] ${
                   activePage === 'AI Assistente' ? 'bg-[#f3f2f2]' : ''
                 }`}
                 initial={{ backgroundColor: 'rgba(255,255,255,0)' }}
@@ -320,7 +320,7 @@ export default function Dashboard() {
                 transition={{ duration: 0.3, ease: [0.4, 0, 1, 1] }}
               >
                 <svg 
-                  className="size-[20px] group-hover:scale-110 group-hover:rotate-[360deg] transition-all duration-300 ease-in"
+                  className="ai-icon size-[20px] group-hover:scale-110 group-hover:rotate-[360deg] transition-all duration-300 ease-in"
                   viewBox="0 0 20 20" 
                   fill="none" 
                   xmlns="http://www.w3.org/2000/svg"
@@ -356,7 +356,7 @@ export default function Dashboard() {
                 <div key={item.name} className="group relative flex items-center justify-center w-full">
                   <motion.button 
                     onClick={() => setActivePage(item.name)}
-                    className={`h-[40px] w-full flex items-center justify-center rounded-[6px] ${
+                    className={`h-[40px] w-full flex items-center justify-center rounded-[0px] ${
                       isItemActive ? 'bg-[#f3f2f2]' : ''
                     }`}
                     initial={{ backgroundColor: 'rgba(255,255,255,0)' }}
