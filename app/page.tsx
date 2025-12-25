@@ -1,12 +1,6 @@
 'use client'
 
-import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
-import { LayoutDashboard, Handshake, FileText, Wallet, Settings, LogOut, Sparkles } from 'lucide-react'
-import { Command } from 'cmdk'
-import { motion } from 'framer-motion'
-import { PlaceholdersAndVanishInput } from './ui/placeholders-and-vanish-input'
-import { NoiseBackground } from './components/ui/noise-background'
 
 // Asset URLs from the latest Figma Design (47:4088)
 const imgLogo = "https://www.figma.com/api/mcp/asset/a32df1a4-14a5-41e2-a277-96f0831aa81f";
@@ -51,18 +45,17 @@ type TrialButtonProps = {
 
 function TrialButton({ className }: TrialButtonProps) {
   return (
-    <NoiseBackground
-      containerClassName={className}
-      gradientColors={[
-        "rgb(255, 100, 150)",
-        "rgb(100, 150, 255)",
-        "rgb(255, 200, 100)",
-      ]}
+    <div 
+      className={`trial-button-bg ${className}`}
+      style={{ 
+        backgroundColor: 'white',
+        background: 'white',
+      }}
     >
-      <div className="flex flex-col font-serif justify-center text-[#878787] text-[12px] text-center whitespace-nowrap">
+      <div className="flex flex-col font-sans justify-center text-[#878787] text-[12px] text-center whitespace-nowrap">
         <p className="leading-[16px]">Pro trial - 14 days left</p>
       </div>
-    </NoiseBackground>
+    </div>
   );
 }
 
@@ -90,23 +83,18 @@ const searchableContent: SearchResult[] = [
   { id: '11', title: 'Processos', description: 'Gerenciar processos', type: 'page', icon: imgSvgProcessos },
 ];
 
-// Helper function to get color for percentage values
-const getPercentageColor = (percentage: string): string => {
-  const numValue = parseFloat(percentage.replace(/[+%]/g, ''));
-  return numValue >= 0 ? '#00875A' : '#FF2A00';
-};
-
 export default function Dashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [activePage, setActivePage] = useState('Dashboard');
-  const [openCommandPalette, setOpenCommandPalette] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   
   // Dynamic greeting based on user's timezone
-  const [greeting, setGreeting] = useState('Boa noite');
+  const [greeting, setGreeting] = useState('Good Morning');
   const [userName, setUserName] = useState('Roni');
+  const [displayedText, setDisplayedText] = useState('');
+  const [isTyping, setIsTyping] = useState(true);
 
   // Function to get appropriate greeting based on time
   const getGreeting = () => {
@@ -126,6 +114,31 @@ export default function Dashboard() {
     return () => clearInterval(interval);
   }, []);
 
+  // Typing animation effect
+  useEffect(() => {
+    const fullText = `${greeting} ${userName},`;
+    let currentIndex = 0;
+    
+    const typingDuration = 1000; // 1 second
+    const charDelay = typingDuration / fullText.length;
+    
+    const typingInterval = setInterval(() => {
+      if (currentIndex <= fullText.length) {
+        setDisplayedText(fullText.slice(0, currentIndex));
+        currentIndex++;
+      } else {
+        setIsTyping(false);
+        clearInterval(typingInterval);
+      }
+    }, charDelay);
+    
+    return () => {
+      clearInterval(typingInterval);
+      setIsTyping(true);
+      setDisplayedText('');
+    };
+  }, [greeting, userName]);
+
   // Handle click outside to close search results
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -135,22 +148,6 @@ export default function Dashboard() {
     }
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  // Handle Cmd+K keyboard shortcut for command palette
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        setOpenCommandPalette((open) => !open);
-      }
-      // Close on Escape
-      if (e.key === 'Escape') {
-        setOpenCommandPalette(false);
-      }
-    };
-    document.addEventListener('keydown', down);
-    return () => document.removeEventListener('keydown', down);
   }, []);
 
   // Handle search
@@ -170,25 +167,7 @@ export default function Dashboard() {
     setShowResults(true);
   };
 
-  // Handle search input change
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleSearch(e.target.value);
-  };
-
-  // Handle search form submit
-  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (searchQuery.trim() && searchResults.length > 0) {
-      handleResultClick(searchResults[0]);
-    } else if (searchQuery.trim()) {
-      // If no results but there's a query, just clear it
-      setSearchQuery('');
-      setShowResults(false);
-    }
-  };
-
   const handleResultClick = (result: SearchResult) => {
-    console.log('Selected:', result);
     if (result.type === 'page') {
       setActivePage(result.title);
     }
@@ -197,193 +176,68 @@ export default function Dashboard() {
   };
 
   return (
-    <>
-      {/* Command Palette */}
-      {openCommandPalette && (
-        <div 
-          className="fixed inset-0 z-[200] bg-black/50 flex items-start justify-center pt-[20vh]"
-          onClick={() => setOpenCommandPalette(false)}
-        >
-          <div onClick={(e) => e.stopPropagation()}>
-            <Command className="w-full max-w-[640px] bg-white border border-[#dbdad7] shadow-lg rounded-lg overflow-hidden">
-              <Command.Input 
-                placeholder="Search processos, finance, settings..."
-                className="w-full px-4 py-3 text-[14px] outline-none border-b border-[#dbdad7]"
-                autoFocus
-              />
-              <Command.List className="max-h-[300px] overflow-y-auto p-2">
-                <Command.Empty className="px-4 py-8 text-center text-[#666] text-sm">
-                  No results found.
-                </Command.Empty>
-                
-                <Command.Group heading="Navigation">
-                  <Command.Item
-                    value="processos"
-                    onSelect={() => {
-                      setActivePage('Processos');
-                      setOpenCommandPalette(false);
-                    }}
-                    className="flex items-center gap-3 px-4 py-2 rounded cursor-pointer hover:bg-[#f3f2f2] transition-colors data-[selected]:bg-[#f3f2f2]"
-                  >
-                    <FileText className="size-4 text-[#666666]" />
-                    <span className="text-[14px] text-[#262626]">Processos</span>
-                  </Command.Item>
-                  
-                  <Command.Item
-                    value="finance"
-                    onSelect={() => {
-                      setActivePage('Financeiro');
-                      setOpenCommandPalette(false);
-                    }}
-                    className="flex items-center gap-3 px-4 py-2 rounded cursor-pointer hover:bg-[#f3f2f2] transition-colors data-[selected]:bg-[#f3f2f2]"
-                  >
-                    <Wallet className="size-4 text-[#666666]" />
-                    <span className="text-[14px] text-[#262626]">Finance</span>
-                  </Command.Item>
-                  
-                  <Command.Item
-                    value="settings"
-                    onSelect={() => {
-                      setActivePage('Configurações');
-                      setOpenCommandPalette(false);
-                    }}
-                    className="flex items-center gap-3 px-4 py-2 rounded cursor-pointer hover:bg-[#f3f2f2] transition-colors data-[selected]:bg-[#f3f2f2]"
-                  >
-                    <Settings className="size-4 text-[#666666]" />
-                    <span className="text-[14px] text-[#262626]">Settings</span>
-                  </Command.Item>
-                </Command.Group>
-              </Command.List>
-            </Command>
-          </div>
-        </div>
-      )}
-
-      <div className="bg-white flex items-start justify-center min-h-screen w-full font-serif">
+    <div className="bg-white flex items-start justify-center min-h-screen w-full font-sans">
       {/* Sidebar - Figma Design (60px) */}
       <div className="bg-white flex flex-col h-screen w-[60px] shrink-0 sticky top-0 z-[100] relative border-r border-[#dbdad7]">
         {/* Logo Area */}
         <div className="border-b border-[#dbdad7] h-[70px] flex items-center justify-center shrink-0 relative z-10">
-          <button 
-            onClick={() => setActivePage('Dashboard')}
-            className="relative size-[28px] flex items-center justify-center hover:opacity-80 transition-opacity cursor-pointer"
-            aria-label="Go to Dashboard"
-          >
+          <div className="relative size-[28px]">
             <div className="absolute h-[26px] left-[2px] top-px w-[22px]">
               <img alt="Logo" className="w-full h-full object-contain" src={imgLogo} />
             </div>
-          </button>
+          </div>
         </div>
 
-        {/* Navigation Menu - Matching Figma Design 14-466 */}
+        {/* Navigation Menu */}
         <div className="flex-1 flex flex-col justify-between py-6 relative z-10 bg-white">
-          {/* Top Group: Dashboard, Clientes, Processos, Financeiro - 4 grey icons */}
           <div className="flex flex-col gap-2">
             {[
-              { icon: LayoutDashboard, name: 'Dashboard' },
-              { icon: Handshake, name: 'Clientes' },
-              { icon: FileText, name: 'Processos' },
-              { icon: Wallet, name: 'Financeiro' },
-            ].map((item) => {
-              const isActive = activePage === item.name;
-              const IconComponent = item.icon;
-              return (
-                <div key={item.name} className="group relative flex items-center justify-center w-full">
-                  <motion.button 
-                    onClick={() => setActivePage(item.name)}
-                    className={`h-[40px] w-full flex items-center justify-center rounded-[0px] ${
-                      isActive ? 'bg-[#f3f2f2]' : ''
-                    }`}
-                    initial={{ backgroundColor: 'rgba(255,255,255,0)' }}
-                    whileHover={{ 
-                      backgroundColor: 'rgba(243, 242, 242, 1)'
-                    }}
-                    transition={{ duration: 0.3, ease: [0.4, 0, 1, 1] }}
-                  >
-                    <IconComponent 
-                      className="size-[20px] text-[#666666] group-hover:text-[#262626] transition-colors duration-300 ease-in"
-                      strokeWidth={1.5}
-                    />
-                  </motion.button>
-                  <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#262626] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in pointer-events-none z-[110] font-hedvig-sans font-normal">
-                    {item.name}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Middle Group: AI Assistente - Orange icon with significant gap */}
-          <div className="flex flex-col mt-16">
-            <div className="group relative flex items-center justify-center w-full">
-              <motion.button 
-                onClick={() => setActivePage('AI Assistente')}
-                className={`h-[40px] w-full flex items-center justify-center rounded-[0px] ${
-                  activePage === 'AI Assistente' ? 'bg-[#f3f2f2]' : ''
-                }`}
-                initial={{ backgroundColor: 'rgba(255,255,255,0)' }}
-                whileHover={{ 
-                  backgroundColor: 'rgba(243, 242, 242, 1)'
-                }}
-                transition={{ duration: 0.3, ease: [0.4, 0, 1, 1] }}
-              >
-                <svg 
-                  className="ai-icon size-[20px] group-hover:scale-110 group-hover:rotate-[360deg] transition-all duration-300 ease-in"
-                  viewBox="0 0 20 20" 
-                  fill="none" 
-                  xmlns="http://www.w3.org/2000/svg"
+              { icon: imgSvgDashboard, name: 'Dashboard' },
+              { icon: imgSvgClientes, name: 'Clientes' },
+              { icon: imgSvgFinanceiro, name: 'Financeiro' },
+              { icon: imgSvgProcessos, name: 'Processos' },
+              { icon: imgSvgAI, name: 'AI Assistente' },
+            ].map((item) => (
+              <div key={item.name} className="group relative flex items-center justify-center w-full">
+                <button 
+                  onClick={() => setActivePage(item.name)}
+                  className={`h-[40px] w-full flex items-center justify-center transition-colors ${activePage === item.name ? 'bg-[#f3f2f2]' : 'group-hover:bg-[#f3f2f2]'}`}
                 >
-                  <path 
-                    className="group-hover:fill-[#C96800] transition-colors duration-300 ease-in"
-                    d="M9.18083 2.345C9.21654 2.15384 9.31798 1.98118 9.46758 1.85693C9.61718 1.73268 9.80553 1.66467 10 1.66467C10.1945 1.66467 10.3828 1.73268 10.5324 1.85693C10.682 1.98118 10.7835 2.15384 10.8192 2.345L11.695 6.97667C11.7572 7.30596 11.9172 7.60885 12.1542 7.84581C12.3912 8.08277 12.694 8.2428 13.0233 8.305L17.655 9.18083C17.8462 9.21654 18.0188 9.31798 18.1431 9.46758C18.2673 9.61718 18.3353 9.80553 18.3353 10C18.3353 10.1945 18.2673 10.3828 18.1431 10.5324C18.0188 10.682 17.8462 10.7835 17.655 10.8192L13.0233 11.695C12.694 11.7572 12.3912 11.9172 12.1542 12.1542C11.9172 12.3912 11.7572 12.694 11.695 13.0233L10.8192 17.655C10.7835 17.8462 10.682 18.0188 10.5324 18.1431C10.3828 18.2673 10.1945 18.3353 10 18.3353C9.80553 18.3353 9.61718 18.2673 9.46758 18.1431C9.31798 18.0188 9.21654 17.8462 9.18083 17.655L8.305 13.0233C8.2428 12.694 8.08277 12.3912 7.84581 12.1542C7.60885 11.9172 7.30596 11.7572 6.97667 11.695L2.345 10.8192C2.15384 10.7835 1.98118 10.682 1.85693 10.5324C1.73268 10.3828 1.66467 10.1945 1.66467 10C1.66467 9.80553 1.73268 9.61718 1.85693 9.46758C1.98118 9.31798 2.15384 9.21654 2.345 9.18083L6.97667 8.305C7.30596 8.2428 7.60885 8.08277 7.84581 7.84581C8.08277 7.60885 8.2428 7.30596 8.305 6.97667L9.18083 2.345Z" 
-                    stroke="#C96800" 
-                    strokeWidth="1.67" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round"
+                  <img 
+                    className={`size-[20px] transition-all ${activePage === item.name ? '[filter:brightness(0)_invert(0.15)]' : 'group-hover:[filter:brightness(0)_invert(0.15)]'}`} 
+                    alt={item.name} 
+                    src={item.icon} 
                   />
-                  <path d="M16.6667 1.66667V5" stroke="#C96800" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M18.3333 3.33333H15" stroke="#C96800" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M3.33333 18.3333C4.25381 18.3333 5 17.5871 5 16.6667C5 15.7462 4.25381 15 3.33333 15C2.41286 15 1.66667 15.7462 1.66667 16.6667C1.66667 17.5871 2.41286 18.3333 3.33333 18.3333Z" stroke="#C96800" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </motion.button>
-              <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#262626] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in pointer-events-none z-[110] font-hedvig-sans font-normal">
-                AI Assistente
-              </span>
-            </div>
+                </button>
+                <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#262626] opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-[110]">
+                  {item.name}
+                </span>
+              </div>
+            ))}
           </div>
 
-          {/* Bottom Group: Configurações, Logout - 2 grey icons with significant gap */}
-          <div className="flex flex-col gap-2 mt-16">
+          <div className="flex flex-col gap-2">
             {[
-              { icon: Settings, name: 'Configurações' },
-              { icon: LogOut, name: 'Logout' },
-            ].map((item) => {
-              const isItemActive = activePage === item.name;
-              const IconComponent = item.icon;
-              return (
-                <div key={item.name} className="group relative flex items-center justify-center w-full">
-                  <motion.button 
-                    onClick={() => setActivePage(item.name)}
-                    className={`h-[40px] w-full flex items-center justify-center rounded-[0px] ${
-                      isItemActive ? 'bg-[#f3f2f2]' : ''
-                    }`}
-                    initial={{ backgroundColor: 'rgba(255,255,255,0)' }}
-                    whileHover={{ 
-                      backgroundColor: 'rgba(243, 242, 242, 1)'
-                    }}
-                    transition={{ duration: 0.3, ease: [0.4, 0, 1, 1] }}
-                  >
-                    <IconComponent 
-                      className="size-[20px] text-[#666666] group-hover:text-[#262626] transition-colors duration-300 ease-in"
-                      strokeWidth={1.5}
-                    />
-                  </motion.button>
-                  <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#262626] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in pointer-events-none z-[110] font-hedvig-sans font-normal">
-                    {item.name}
-                  </span>
-                </div>
-              );
-            })}
+              { icon: imgSvgConfig, name: 'Configurações', size: '18px' },
+              { icon: imgSvgLogout, name: 'Logout', size: '18px' },
+            ].map((item) => (
+              <div key={item.name} className="group relative flex items-center justify-center w-full">
+                <button 
+                  onClick={() => setActivePage(item.name)}
+                  className={`h-[40px] w-full flex items-center justify-center transition-colors ${activePage === item.name ? 'bg-[#f3f2f2]' : 'group-hover:bg-[#f3f2f2]'}`}
+                >
+                  <img 
+                    style={{ width: item.size, height: item.size }} 
+                    className={`transition-all ${activePage === item.name ? '[filter:brightness(0)_invert(0.15)]' : 'group-hover:[filter:brightness(0)_invert(0.15)]'}`}
+                    alt={item.name} 
+                    src={item.icon} 
+                  />
+                </button>
+                <span className="absolute left-[59px] h-[40px] flex items-center bg-[#f3f2f2] px-4 whitespace-nowrap text-[13px] text-[#262626] opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-[110]">
+                  {item.name}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -394,19 +248,23 @@ export default function Dashboard() {
         <header className="bg-white border-b border-[#dbdad7] h-[70px] flex items-center justify-between px-6 shrink-0 z-40">
           {/* Search Bar */}
           <div className="relative" ref={searchRef}>
-            <div className="min-w-[250px]">
-              <PlaceholdersAndVanishInput
-                placeholders={[
-                  "Buscar processos...",
-                  "Encontrar clientes...",
-                  "Ver finanças...",
-                  "Procurar configurações...",
-                  "Find anything..."
-                ]}
+            <div className="flex items-center gap-2 min-w-[250px] h-[36px] px-3 border border-[#dbdad7] rounded-none focus-within:border-[#4A90E2] transition-all">
+              <div className="relative size-[18px] flex items-center justify-center">
+                <img alt="" className="size-full" src={imgFrame} />
+                <img alt="" className="absolute inset-0 size-full p-[2px]" src={imgVector} />
+              </div>
+              <input
+                type="text"
                 value={searchQuery}
-                onChange={handleSearchChange}
-                onSubmit={handleSearchSubmit}
+                onChange={(e) => handleSearch(e.target.value)}
+                onFocus={() => searchQuery && setShowResults(true)}
+                placeholder="Find anything..."
+                className="flex-1 text-[14px] text-[#616161] bg-transparent outline-none placeholder:text-[#616161]"
               />
+              <div className="hidden sm:flex items-center gap-1 bg-[#f1f0ee] border border-[#dbdad7] px-1.5 py-0.5 rounded text-[10px] text-[#616161]">
+                <span>⌘</span>
+                <span>K</span>
+              </div>
             </div>
 
             {/* Search Results Dropdown */}
@@ -448,7 +306,7 @@ export default function Dashboard() {
 
           {/* Header Right Side */}
           <div className="flex items-center gap-4">
-            <TrialButton className="border border-[#dbdad7] px-[13px] py-1 h-[32px] rounded-[6px] flex items-center" />
+            <TrialButton className="border border-[#dbdad7] px-[13px] py-1 h-[32px] rounded-full flex items-center" />
             
             <button className="border border-[#dbdad7] size-[32px] rounded-full flex items-center justify-center hover:bg-gray-50">
               <img alt="Notifications" className="size-[16px]" src={imgSvgNotifications} />
@@ -461,104 +319,111 @@ export default function Dashboard() {
         </header>
 
         {/* Dashboard Scrollable Content */}
-        <main className="flex-1 overflow-y-auto bg-white">
-          <div className="max-w-[1200px] pl-[26px] pr-[24px] py-[24px]">
+        <main className="flex-1 overflow-y-auto bg-white p-6">
+          <div className="max-w-[1200px] mx-auto flex flex-col gap-6">
             {/* Greeting Header */}
-            <div className="flex flex-col gap-1 mb-8">
-              <h1 className="text-[30px] leading-[45px] font-serif">
-                <span className="text-[#262626]">{greeting} </span>
-                <span className="text-[#666666]">{userName},</span>
+            <div className="flex flex-col gap-1">
+              <h1 className="text-[30px] leading-[45px] font-sans text-[#121212]">
+                {displayedText.includes(userName) ? (
+                  <>
+                    <span>{displayedText.split(userName)[0]}</span>
+                    <span className="text-[#666]">{userName}{displayedText.split(userName)[1]}</span>
+                  </>
+                ) : (
+                  <span>{displayedText}</span>
+                )}
+                {isTyping && <span className="inline-block w-[2px] h-[28px] bg-[#121212] ml-1 animate-pulse align-middle"></span>}
               </h1>
-              <p className="text-[14px] text-[#666] leading-[21px] font-hedvig-sans font-normal">Aqui está o que exige sua atenção hoje</p>
+              <p className="text-[14px] text-[#666] leading-[21px]">Aqui está o que exige sua atenção hoje</p>
             </div>
 
             {/* Content Grid - Matching Figma Layout */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 auto-rows-fr">
+            <div className="grid grid-cols-3 gap-6">
               
               {/* Row 1 */}
               
               {/* Processos em risco */}
-              <div className="bg-white border border-[#dbdad7] rounded-[8px] min-h-[186px] p-6 flex flex-col justify-between hover:border-[#262626] transition-colors group w-full">
+              <div className="bg-white border border-[#dbdad7] rounded-[8px] h-[186px] p-6 flex flex-col justify-between hover:border-[#4A90E2] transition-colors group">
                 <div className="flex gap-2 items-center">
                   <img alt="" className="size-4" src={imgSvgProcessosRisco} />
-                  <span className="text-[12px] text-[#666666] font-hedvig-sans font-normal">Processos em risco por prazo</span>
+                  <span className="text-[12px] text-[#666]">Processos em risco por prazo</span>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <span className="text-[12px] text-[#878787] font-hedvig-sans font-normal">Próximos 7 dias</span>
-                  <span className="text-[32px] text-[#262626] font-serif">0</span>
+                  <span className="text-[12px] text-[#878787]">Próximos 7 dias</span>
+                  <span className="text-[32px] text-[#121212] font-sans">0</span>
                 </div>
-                <button className="text-[12px] text-[#666666] underline text-left font-hedvig-sans font-normal">Revisar processos</button>
+                <button className="text-[12px] text-[#666] underline text-left">Revisar processos</button>
               </div>
 
               {/* Valor Total da Causa */}
-              <div className="bg-white border border-[#dbdad7] rounded-[8px] min-h-[186px] p-6 flex flex-col justify-between hover:border-[#262626] transition-colors group w-full">
+              <div className="bg-white border border-[#dbdad7] rounded-[8px] h-[186px] p-6 flex flex-col justify-between hover:border-[#4A90E2] transition-colors group">
                 <div className="flex gap-2 items-center">
                   <img alt="" className="size-4" src={imgSvgValorCausa} />
-                  <span className="text-[12px] text-[#666666] font-hedvig-sans font-normal">Valor Total da Causa (Ativos)</span>
+                  <span className="text-[12px] text-[#666]">Valor Total da Causa (Ativos)</span>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <span className="text-[12px] text-[#878787] font-hedvig-sans font-normal">Soma de processos ativos</span>
-                  <span className="text-[32px] text-[#262626] font-serif">R$ 11.500,6k</span>
+                  <span className="text-[12px] text-[#878787]">Soma de processos ativos</span>
+                  <span className="text-[32px] text-[#121212] font-sans">R$ 11.500,6k</span>
                 </div>
-                <button className="text-[12px] text-left font-hedvig-sans font-normal" style={{ color: '#00875A' }}>6 processos ativos</button>
+                <button className="text-[12px] text-[#00875a] text-left">6 processos ativos</button>
               </div>
 
               {/* Movimentações Recentes */}
-              <div className="bg-white border border-[#dbdad7] rounded-[8px] min-h-[186px] p-6 flex flex-col justify-between hover:border-[#262626] transition-colors group w-full">
+              <div className="bg-white border border-[#dbdad7] rounded-[8px] h-[186px] p-6 flex flex-col justify-between hover:border-[#4A90E2] transition-colors group">
                 <div className="flex gap-2 items-center">
                   <img alt="" className="size-4" src={imgSvgMovimentacoes} />
-                  <span className="text-[12px] text-[#666666] font-hedvig-sans font-normal">Movimentações Recentes</span>
+                  <span className="text-[12px] text-[#666]">Movimentações Recentes</span>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <span className="text-[12px] text-[#878787] font-hedvig-sans font-normal">Últimas 48 horas</span>
-                  <span className="text-[32px] text-[#262626] font-serif">4</span>
+                  <span className="text-[12px] text-[#878787]">Últimas 48 horas</span>
+                  <span className="text-[32px] text-[#121212] font-sans">4</span>
                 </div>
-                <button className="text-[12px] text-[#666666] underline text-left font-hedvig-sans font-normal">Ver processos</button>
+                <button className="text-[12px] text-[#666] underline text-left">Ver processos</button>
               </div>
 
               {/* Row 2 */}
 
               {/* Receita Estimada */}
-              <div className="bg-white border border-[#dbdad7] rounded-[8px] min-h-[186px] p-6 flex flex-col justify-between hover:border-[#262626] transition-colors group w-full">
+              <div className="bg-white border border-[#dbdad7] rounded-[8px] h-[186px] p-6 flex flex-col justify-between hover:border-[#4A90E2] transition-colors group">
                 <div className="flex gap-2 items-center">
                   <img alt="" className="size-4" src={imgSvgReceita} />
-                  <span className="text-[12px] text-[#666666] font-hedvig-sans font-normal">Receita Estimada (Honorários)</span>
+                  <span className="text-[12px] text-[#666]">Receita Estimada (Honorários)</span>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <span className="text-[12px] text-[#878787] font-hedvig-sans font-normal">Baseado em ~10% do valor da causa</span>
-                  <span className="text-[32px] text-[#262626] font-serif">R$ 1.150.060,00</span>
+                  <span className="text-[12px] text-[#878787]">Baseado em ~10% do valor da causa</span>
+                  <span className="text-[32px] text-[#121212] font-sans">R$ 1.150.060,00</span>
                 </div>
-                <button className="text-[12px] text-[#666666] text-left font-hedvig-sans font-normal">Previsão baseada em ativos</button>
+                <button className="text-[12px] text-[#666] text-left">Previsão baseada em ativos</button>
               </div>
 
               {/* Despesas comprometidas */}
-              <div className="bg-white border border-[#dbdad7] rounded-[8px] min-h-[186px] p-6 flex flex-col justify-between hover:border-[#262626] transition-colors group w-full">
+              <div className="bg-white border border-[#dbdad7] rounded-[8px] h-[186px] p-6 flex flex-col justify-between hover:border-[#4A90E2] transition-colors group">
                 <div className="flex gap-2 items-center">
                   <img alt="" className="size-4" src={imgSvgDespesas} />
-                  <span className="text-[12px] text-[#666666] font-hedvig-sans font-normal">Despesas comprometidas</span>
+                  <span className="text-[12px] text-[#666]">Despesas comprometidas</span>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <span className="text-[12px] text-[#878787] font-hedvig-sans font-normal">Próximos 30 dias</span>
-                  <span className="text-[32px] text-[#262626] font-serif">R$ 9.200</span>
+                  <span className="text-[12px] text-[#878787]">Próximos 30 dias</span>
+                  <span className="text-[32px] text-[#121212] font-sans">R$ 9.200</span>
                 </div>
-                <button className="text-[12px] text-[#666666] text-left font-hedvig-sans font-normal">2 despesas aguardam aprovação</button>
+                <button className="text-[12px] text-[#666] text-left">2 despesas aguardam aprovação</button>
               </div>
 
               {/* Rentabilidade Chart/List */}
-              <div className="bg-white border border-[#dbdad7] rounded-[8px] min-h-[186px] p-6 flex flex-col gap-4 hover:border-[#262626] transition-colors group w-full">
+              <div className="bg-white border border-[#dbdad7] rounded-[8px] h-[186px] p-6 flex flex-col gap-4 hover:border-[#4A90E2] transition-colors group">
                 <div className="flex gap-2 items-center">
                   <img alt="" className="size-4" src={imgSvgValorCausa} />
-                  <span className="text-[12px] text-[#666666] font-hedvig-sans font-normal">Rentabilidade por tipo de processo</span>
+                  <span className="text-[12px] text-[#666]">Rentabilidade por tipo de processo</span>
                 </div>
-                <span className="text-[12px] text-[#878787] font-hedvig-sans font-normal">Últimos 12 meses</span>
+                <span className="text-[12px] text-[#878787]">Últimos 12 meses</span>
                 <div className="flex flex-col gap-2 mt-auto">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-[14px] text-[#666666] font-hedvig-sans font-normal">Trabalhista:</span>
-                    <span className="text-[20px] font-serif" style={{ color: getPercentageColor('+32%') }}>+32%</span>
+                    <span className="text-[14px] text-[#666]">Trabalhista:</span>
+                    <span className="text-[20px] text-[#00875a] font-sans">+32%</span>
                   </div>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-[14px] text-[#666666] font-hedvig-sans font-normal">Cível:</span>
-                    <span className="text-[20px] font-serif" style={{ color: getPercentageColor('+18%') }}>+18%</span>
+                    <span className="text-[14px] text-[#666]">Cível:</span>
+                    <span className="text-[20px] text-[#00875a] font-sans">+18%</span>
                   </div>
                 </div>
               </div>
@@ -566,8 +431,8 @@ export default function Dashboard() {
             </div>
 
             {/* Quick Actions */}
-            <div className="flex flex-col gap-4">
-              <h2 className="text-[16px] text-[#666666] font-hedvig-sans font-normal">Ações Rápidas</h2>
+            <div className="flex flex-col gap-4 mt-4">
+              <h2 className="text-[16px] text-[#121212]">Ações Rápidas</h2>
               <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
                 {[
                   { icon: imgSvgActionProcesso, label: '+ Processo' },
@@ -578,10 +443,10 @@ export default function Dashboard() {
                 ].map((action, idx) => (
                   <button 
                     key={idx}
-                    className="border border-[#dbdad7] rounded-[6px] flex items-center gap-2 px-[17px] py-[13px] hover:border-[#262626] transition-colors whitespace-nowrap bg-white group"
+                    className="border border-[#dbdad7] rounded-[6px] flex items-center gap-2 px-[17px] py-[13px] hover:bg-gray-50 transition-colors whitespace-nowrap bg-white"
                   >
                     <img alt="" className="size-[16px]" src={action.icon} />
-                    <span className="text-[14px] text-[#666] group-hover:text-[#262626] font-hedvig-sans font-normal">{action.label}</span>
+                    <span className="text-[14px] text-[#666]">{action.label}</span>
                   </button>
                 ))}
               </div>
@@ -590,6 +455,5 @@ export default function Dashboard() {
         </main>
       </div>
     </div>
-    </>
   )
 }
