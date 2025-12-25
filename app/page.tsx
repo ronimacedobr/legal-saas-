@@ -6,6 +6,7 @@ import { LayoutDashboard, Handshake, FileText, Wallet, Settings, LogOut, Sparkle
 import { Command } from 'cmdk'
 import { motion } from 'framer-motion'
 import { PlaceholdersAndVanishInput } from './ui/placeholders-and-vanish-input'
+import { NoiseBackground } from './components/ui/noise-background'
 
 // Asset URLs from the latest Figma Design (47:4088)
 const imgLogo = "https://www.figma.com/api/mcp/asset/a32df1a4-14a5-41e2-a277-96f0831aa81f";
@@ -50,11 +51,18 @@ type TrialButtonProps = {
 
 function TrialButton({ className }: TrialButtonProps) {
   return (
-    <div className={className}>
+    <NoiseBackground
+      containerClassName={className}
+      gradientColors={[
+        "rgb(255, 100, 150)",
+        "rgb(100, 150, 255)",
+        "rgb(255, 200, 100)",
+      ]}
+    >
       <div className="flex flex-col font-serif justify-center text-[#878787] text-[12px] text-center whitespace-nowrap">
         <p className="leading-[16px]">Pro trial - 14 days left</p>
       </div>
-    </div>
+    </NoiseBackground>
   );
 }
 
