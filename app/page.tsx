@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
 
 // Asset URLs from the latest Figma Design (47:4088)
@@ -46,10 +47,13 @@ type TrialButtonProps = {
 function TrialButton({ className }: TrialButtonProps) {
   return (
     <div 
-      className={`trial-button-bg ${className}`}
+      className={className}
       style={{ 
         backgroundColor: 'white',
         background: 'white',
+        backgroundImage: 'none',
+        backgroundSize: 'auto',
+        boxShadow: 'none'
       }}
     >
       <div className="flex flex-col font-sans justify-center text-[#878787] text-[12px] text-center whitespace-nowrap">
@@ -168,6 +172,7 @@ export default function Dashboard() {
   };
 
   const handleResultClick = (result: SearchResult) => {
+    console.log('Selected:', result);
     if (result.type === 'page') {
       setActivePage(result.title);
     }

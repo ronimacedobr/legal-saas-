@@ -8,11 +8,3 @@ body {
   font-family: 'Hedvig Letters Sans', 'Noto Sans', sans-serif;
 }
 
-/* Force white background for TrialButton - override any other styles */
-.trial-button-bg {
-  background-color: white !important;
-  background: white !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
