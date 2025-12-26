@@ -11,7 +11,8 @@ const config: Config = {
   	extend: {
   		fontFamily: {
   			sans: [
-  				'var(--font-hedvig-letters-serif)',
+  				'Hedvig Letters Sans',
+  				'Noto Sans',
   				'sans-serif'
   			],
   			serif: [
