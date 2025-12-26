@@ -328,7 +328,7 @@ export default function Dashboard() {
           <div className="max-w-[1200px] mx-auto flex flex-col gap-6">
             {/* Greeting Header */}
             <div className="flex flex-col gap-1">
-              <h1 className="text-[30px] leading-[45px] font-sans text-[#121212]">
+              <h1 className="text-[30px] leading-[45px] font-serif text-[#121212]">
                 {displayedText.includes(userName) ? (
                   <>
                     <span>{displayedText.split(userName)[0]}</span>
@@ -355,7 +355,7 @@ export default function Dashboard() {
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-[12px] text-[#878787]">Próximos 7 dias</span>
-                  <span className="text-[32px] text-[#121212] font-sans">0</span>
+                  <span className="text-[32px] text-[#121212] font-serif">0</span>
                 </div>
                 <button className="text-[12px] text-[#666] underline text-left">Revisar processos</button>
               </div>
@@ -368,7 +368,7 @@ export default function Dashboard() {
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-[12px] text-[#878787]">Soma de processos ativos</span>
-                  <span className="text-[32px] text-[#121212] font-sans">R$ 11.500,6k</span>
+                  <span className="text-[32px] text-[#121212] font-serif">R$ 11.500,6k</span>
                 </div>
                 <button className="text-[12px] text-[#00875a] text-left">6 processos ativos</button>
               </div>
@@ -381,7 +381,7 @@ export default function Dashboard() {
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-[12px] text-[#878787]">Últimas 48 horas</span>
-                  <span className="text-[32px] text-[#121212] font-sans">4</span>
+                  <span className="text-[32px] text-[#121212] font-serif">4</span>
                 </div>
                 <button className="text-[12px] text-[#666] underline text-left">Ver processos</button>
               </div>
@@ -396,7 +396,7 @@ export default function Dashboard() {
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-[12px] text-[#878787]">Baseado em ~10% do valor da causa</span>
-                  <span className="text-[32px] text-[#121212] font-sans">R$ 1.150.060,00</span>
+                  <span className="text-[32px] text-[#121212] font-serif">R$ 1.150.060,00</span>
                 </div>
                 <button className="text-[12px] text-[#666] text-left">Previsão baseada em ativos</button>
               </div>
@@ -409,7 +409,7 @@ export default function Dashboard() {
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-[12px] text-[#878787]">Próximos 30 dias</span>
-                  <span className="text-[32px] text-[#121212] font-sans">R$ 9.200</span>
+                  <span className="text-[32px] text-[#121212] font-serif">R$ 9.200</span>
                 </div>
                 <button className="text-[12px] text-[#666] text-left">2 despesas aguardam aprovação</button>
               </div>
@@ -424,11 +424,11 @@ export default function Dashboard() {
                 <div className="flex flex-col gap-2 mt-auto">
                   <div className="flex items-baseline gap-2">
                     <span className="text-[14px] text-[#666]">Trabalhista:</span>
-                    <span className="text-[20px] text-[#00875a] font-sans">+32%</span>
+                    <span className="text-[20px] text-[#00875a] font-serif">+32%</span>
                   </div>
                   <div className="flex items-baseline gap-2">
                     <span className="text-[14px] text-[#666]">Cível:</span>
-                    <span className="text-[20px] text-[#00875a] font-sans">+18%</span>
+                    <span className="text-[20px] text-[#00875a] font-serif">+18%</span>
                   </div>
                 </div>
               </div>

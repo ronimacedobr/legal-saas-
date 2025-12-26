@@ -1,5 +1,12 @@
 import type { Metadata } from 'next'
+import { Hedvig_Letters_Serif } from 'next/font/google'
 import './globals.css'
+
+const hedvigSerif = Hedvig_Letters_Serif({ 
+  subsets: ['latin'],
+  variable: '--font-hedvig-letters-serif',
+  weight: '400',
+})
 
 export const metadata: Metadata = {
   title: 'Legal SaaS Dashboard',
@@ -13,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={hedvigSerif.variable}>{children}</body>
     </html>
   )
 }
